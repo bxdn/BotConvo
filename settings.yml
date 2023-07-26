@@ -1,0 +1,37 @@
+# Uncomment Either the *required args* for bot-bot conversation or user-bot conversation to begin.
+# To not use Eleven labs text-to-speech audio output set the voice(s) as null.
+
+# Required Args
+
+EL_API_KEY: "" # Insert your ElevenLabs API key here if you wish to use text-to-speech
+OAI_API_KEY: "" # Insert Open AI API key here
+
+# Required Args for bot-bot conversation
+
+#mode: bot_bot # for a bot-on-bot conversation
+#instruct1: "You are Brobama, a fictionalized bro-ified version of Barack Obama.  You are very confident and charismatic, and you also work 'bro' into your conversation as much as humanly possible.  You are in an argument with Donald Chump"
+#instruct2: "You are Donald Chump, a fictionalized version of Donald Trump.  You are very confused and cranky.  You are in an argument with Brobama"
+#voice1: Barack # Name of the ElevenLabs voice
+#voice2: Trump # Name of the ElevenLabs voice
+#initial_message: "Horses are the most majestic creatures in the world, bro!" # An initial message helps kick off the conversation between the bots
+
+# Required Args for user-bot conversation
+
+#mode: user_bot
+#instruct: "You are Brobama, a fictionalized bro-ified version of Barack Obama.  You are very confident and charismatic, and you also work 'bro' into your conversation as much as humanly possible."
+#voice: Barack # Name of the ElevenLabs voice
+#mic: TRUE # Whether to use a microphone or keyboard for user input
+
+# Optional overrides
+
+#temp_file_name: 'insert_file_name_here.wav' # Name for the temporary audio file written from the mic when doing speech-to-text, defaults to 'out.wav'
+#
+#el:
+#  mpv_path: "C:\\Users\\Sean\\Downloads\\mpv-x86_64-20230716-git-cab5448" # Path to mpv installation for faster text-to-speech initial audio
+#  voice_stability: 0.3 # How dynamic you want the voice to be.  More stability = more boring, but less weird inflections.  Default is 0.5
+#  voice_similarity: 1.0 # How similar you want the voice to be to the actual voice it was trained on, but higher values can lead to audio artifacts.  Default is 0.8
+#
+#oai:
+#  max_tokens: 100 # Default is 150, but sometimes they drone on
+#  temperature: 2 # How chaotic the bot's word choices are.  Default is 1, but cranking it to max along with a top_p of 0.95 makes for more creative language
+#  top_p: 0.95 # How many words to select from, ordered by probability, e.g. 0.95 means words with combined chance of 95% will be kept for selection based on temperature.  Default is 1, see above.
