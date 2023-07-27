@@ -14,7 +14,7 @@ class BotBotApp(App):
         self._oai_manager = OpenAIManager(settings)
         if settings.voice1 and settings.voice2:
             self._el_manager = ElevenLabsManager(settings)
-        elif settings.voice_1 or settings.voice_2:
+        elif settings.voice1 or settings.voice2:
             raise ValueError('Voices must either both be utilized or not at all!')
 
     def run(self):
