@@ -21,7 +21,7 @@ class UserBotApp(App):
         if self._voice:
             self._el_manager = ElevenLabsManager(settings)
         if self._mic:
-            self._r_manager = RecordingManager(settings)
+            self._r_manager = RecordingManager()
 
     def run(self):
         """

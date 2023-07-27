@@ -23,7 +23,7 @@ class App(ABC):
         def _send_and_receive_callback(message, first):
             if first:
                 print('BOT: ', end='')
-            print(message, end='')
+            print(message, end='', flush=True)
             if voice:
                 self._el_manager.say_response(message, voice, first)
         return _send_and_receive_callback

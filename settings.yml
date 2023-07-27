@@ -3,7 +3,7 @@
 
 # Required Args
 
-EL_API_KEY: "" # Insert your ElevenLabs API key here if you wish to use text-to-speech
+EL_API_KEY: "" # Insert your ElevenLabs API key here if you wish to use text-to-speech, otherwise make sure the "voice" fields aren't populated in the parameters below.
 OAI_API_KEY: "" # Insert Open AI API key here
 
 # Required Args for bot-bot conversation
@@ -19,15 +19,12 @@ OAI_API_KEY: "" # Insert Open AI API key here
 
 #mode: user_bot
 #instruct: "You are Brobama, a fictionalized bro-ified version of Barack Obama.  You are very confident and charismatic, and you also work 'bro' into your conversation as much as humanly possible."
-#voice: Barack # Name of the ElevenLabs voice
+#voice: Barack # Name of the ElevenLabs voice, empty string or null for no audio voice output
 #mic: TRUE # Whether to use a microphone or keyboard for user input
 
 # Optional overrides
 
-#temp_file_name: 'insert_file_name_here.wav' # Name for the temporary audio file written from the mic when doing speech-to-text, defaults to 'out.wav'
-#
 #el:
-#  mpv_path: "C:\\Users\\Sean\\Downloads\\mpv-x86_64-20230716-git-cab5448" # Path to mpv installation for faster text-to-speech initial audio
 #  voice_stability: 0.3 # How dynamic you want the voice to be.  More stability = more boring, but less weird inflections.  Default is 0.5
 #  voice_similarity: 1.0 # How similar you want the voice to be to the actual voice it was trained on, but higher values can lead to audio artifacts.  Default is 0.8
 #

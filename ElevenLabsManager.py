@@ -13,10 +13,6 @@ class ElevenLabsManager:
     """
     def __init__(self, settings):
         set_api_key(settings.EL_API_KEY)
-        self._STREAM = False
-        if settings.get('el', default={}).get('mpv_path'):
-            os.environ['PATH'] += os.pathsep + settings.el.mpv_path
-            self._STREAM = True
 
         self._VOICES = voices()
         self._VOICE_STABILITY = settings.get('el', default={}).get('voice_stability', 0.5)
@@ -49,8 +45,7 @@ class ElevenLabsManager:
                 to_generate = self._to_generate.get()
                 self._to_play.put({'audio': generate(
                     text=to_generate['message'],
-                    voice=to_generate['voice'],
-                    stream=self._STREAM and to_generate['batch_start']
+                    voice=to_generate['voice']
                 ), 'batch_start': to_generate['batch_start']})
             else:
                 sleep(0.05)
@@ -59,10 +54,7 @@ class ElevenLabsManager:
         while True:
             if self._to_play.qsize():
                 to_play = self._to_play.get()
-                if self._STREAM and to_play['batch_start']:
-                    stream(to_play['audio'])
-                else:
-                    play(to_play['audio'], use_ffmpeg=False)
+                play(to_play['audio'], use_ffmpeg=False)
             else:
                 sleep(0.05)
 
