@@ -16,7 +16,8 @@ class OpenAIManager:
 
         print('OpenAI Ready...')
 
-    def transcribe(self, audio_file):
+    @staticmethod
+    def transcribe(audio_file):
         """
         Transcribes an audio file
         :param audio_file: The audio file to transcribe
@@ -30,7 +31,7 @@ class OpenAIManager:
         :return: The response string
         """
         chat_completion = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+            model='gpt-3.5-turbo',  # 'gpt-4'
             max_tokens=self._MAX_TOKENS,
             temperature=self._TEMPERATURE,
             top_p=self._TOP_P,

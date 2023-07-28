@@ -30,8 +30,11 @@ class UserBotApp(App):
         :param instruct_message: The message telling ChatGPT what it is, before the chat starts
         :param mic: Whether to get user message from mic or keyboard
         """
+        if self._read_history:
+            self._init_history_file()
+        else:
+            self._messages.append({'role': 'system', 'content': self._instruct_message})
         print('App Running!')
-        self._messages.append({'role': 'system', 'content': self._instruct_message})
         while True:
             self._send_and_receive()
 

@@ -24,6 +24,9 @@ OAI_API_KEY: "" # Insert Open AI API key here
 
 # Optional overrides
 
+#read_history: 'history.json'
+#write_history: 'history.json'
+#
 #el:
 #  voice_stability: 0.3 # How dynamic you want the voice to be.  More stability = more boring, but less weird inflections.  Default is 0.5
 #  voice_similarity: 1.0 # How similar you want the voice to be to the actual voice it was trained on, but higher values can lead to audio artifacts.  Default is 0.8

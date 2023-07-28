@@ -21,10 +21,13 @@ class BotBotApp(App):
         """
         Runs the chat
         """
-        print('App Running!')
-        self._handle_initial_message()
+        if self._read_history:
+            self._init_history_file()
+        else:
+            self._handle_initial_message()
         instruct_message = self._settings.instruct1
         voice = self._settings.voice1
+        print('App Running!')
         while True:
             instruct_message = self._settings.instruct1 if instruct_message == self._settings.instruct2 else self._settings.instruct2
             voice = self._settings.voice1 if voice == self._settings.voice2 else self._settings.voice2
@@ -40,7 +43,7 @@ class BotBotApp(App):
 
     def _get_next_bot_message(self, voice):
         response = self._oai_manager.get_response(self._messages, self._get_send_and_receive_callback(voice))
-        override = input('\nPress enter to continue.  If you would like to override the last message, Type it here.\n')
+        override = input('\n\nPress enter to continue.  If you would like to override the last message, Type it here.\n')
         if override:
             response = override
         self._messages.append({'role': 'assistant', 'content': response})
