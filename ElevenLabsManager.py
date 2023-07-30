@@ -1,10 +1,9 @@
 
-import os
 from queue import Queue
 from threading import Thread
 from time import sleep
 
-from elevenlabs import generate, set_api_key, voices, stream, play
+from elevenlabs import generate, set_api_key, voices, play
 
 
 class ElevenLabsManager:
@@ -26,7 +25,7 @@ class ElevenLabsManager:
 
         print('Eleven Labs Ready...')
 
-    def say_response(self, response_to_speak, voice_name, batch_start):
+    def say_response(self, response_to_speak, voice_name):
         """
         Using the predefined voice, will say the response into the user's speakers using ElevenLab's API
         Additionally, if MPV is installed, will stream to reduce latency, otherwise, will just play once it's done
@@ -37,16 +36,16 @@ class ElevenLabsManager:
         voice = self._get_voice(voice_name)
         voice.settings.stability = self._VOICE_STABILITY
         voice.settings.similarity_boost = self._VOICE_SIMILARITY
-        self._to_generate.put({'message': response_to_speak, 'voice': voice, 'batch_start': batch_start})
+        self._to_generate.put({'message': response_to_speak, 'voice': voice})
 
     def _listen_for_messages(self):
         while True:
             if self._to_generate.qsize():
                 to_generate = self._to_generate.get()
-                self._to_play.put({'audio': generate(
+                self._to_play.put(generate(
                     text=to_generate['message'],
                     voice=to_generate['voice']
-                ), 'batch_start': to_generate['batch_start']})
+                ))
             else:
                 sleep(0.05)
 
@@ -54,7 +53,7 @@ class ElevenLabsManager:
         while True:
             if self._to_play.qsize():
                 to_play = self._to_play.get()
-                play(to_play['audio'], use_ffmpeg=False)
+                play(to_play, use_ffmpeg=False)
             else:
                 sleep(0.05)
 
