@@ -1,5 +1,7 @@
+from json import loads
 
 import openai
+from OpenAIFunctions import functions, function_descriptions
 
 
 class OpenAIManager:
@@ -36,18 +38,36 @@ class OpenAIManager:
             temperature=self._TEMPERATURE,
             top_p=self._TOP_P,
             messages=messages,
-            stream=True
+            stream=True,
+            functions=function_descriptions
         )
         total_output = ''
+        total_function = {'name': '', 'arguments': ''}
         current_output = ''
         first = True
         for chunk in chat_completion:
-            current_output, new_phrase, first = self._handle_chunk(chunk, current_output, phrase_callback, first)
+            current_output, new_phrase, first, partial_func = self._handle_chunk(chunk, current_output, phrase_callback, first)
             total_output += new_phrase
-        return total_output
+            total_function = {
+                'name': total_function['name'] + partial_func['name'],
+                'arguments': total_function['arguments'] + partial_func['arguments']
+            }
+        function_output = ''
+        if total_function['name']:
+            function_output = functions[total_function['name']](loads(total_function['arguments']))
+        return total_output, total_function['name'], function_output
 
     def _handle_chunk(self, chunk, current_output, phrase_callback, first):
-        message_substr = chunk['choices'][0]['delta'].get('content')
+        delta = chunk['choices'][0]['delta']
+        message_substr = delta.get('content')
+        function_call = delta.get('function_call')
+        if function_call:
+            function_call = {
+                'name': function_call.get('name') if function_call.get('name') else '',
+                'arguments': function_call.get('arguments') if function_call.get('arguments') else ''
+            }
+        else:
+            function_call = {'name': '', 'arguments': ''}
         to_append, new_output = self._split_response(message_substr)
         current_output += to_append
         full_phrase = ''
@@ -56,7 +76,7 @@ class OpenAIManager:
             full_phrase = current_output
             current_output = new_output
             first = False
-        return current_output, full_phrase, first
+        return current_output, full_phrase, first, function_call
 
     def _split_response(self, message):
         """

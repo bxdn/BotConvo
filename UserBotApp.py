@@ -43,8 +43,16 @@ class UserBotApp(App):
         if self._mic:
             print(f'YOU: {user_message}')
         self._messages.append({"role": "user", "content": user_message})
-        response = self._oai_manager.get_response(self._messages, self._get_send_and_receive_callback(self._voice))
-        self._messages.append({'role': 'assistant', 'content': response})
+        response, function_name, function_output = self._oai_manager.get_response(self._messages, self._get_send_and_receive_callback(self._voice))
+        while function_name:
+            if response:
+                self._messages.append({'role': 'assistant', 'content': response})
+            self._messages.append({'role': 'function', 'name': function_name, 'content': function_output})
+            response, function_name, function_output = self._oai_manager.get_response(self._messages,
+                                                                                      self._get_send_and_receive_callback(
+                                                                                          self._voice))
+        if response:
+            self._messages.append({'role': 'assistant', 'content': response})
         print()
 
     def _get_message(self):
