@@ -1,3 +1,4 @@
+
 from ElevenLabsManager import ElevenLabsManager
 from OpenAIManager import OpenAIManager
 from RecordingManager import RecordingManager
@@ -15,9 +16,10 @@ class ServiceProvider:
             self._recording_service = RecordingManager()
 
         if self._settings.get('use_funcs'):
-            self._oai_service = OpenAIManager(self._settings, FunctionProvider(self))
-        else:
-            self._oai_service = OpenAIManager(self._settings)
+            assert self._settings.mode == 'user_bot', 'Function calling is not compatible with bot_bot mode'
+            self._function_service = FunctionProvider(self)
+
+        self._oai_service = OpenAIManager(settings, self)
 
     def settings(self):
         return self._settings
@@ -30,3 +32,6 @@ class ServiceProvider:
 
     def recording_service(self):
         return self._recording_service
+
+    def function_service(self):
+        return self._function_service

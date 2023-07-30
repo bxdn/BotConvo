@@ -10,14 +10,13 @@ class TimeFuncs(FunctionModule):
     Function module for time-related stuff
     """
     def _set_timer(self, args):
-        print(f"Timer Set for {args['seconds']} seconds.")
 
         def _timer():
             sleep(args['seconds'])
-            self._service_provider.el_service().say_response('BEEP BEEP BEEP!!', self._service_provider.settings().voice)
+            self._service_provider.el_service().say_response('BEEP, BEEP, BEEP!!', self._service_provider.settings().voice)
 
         Thread(target=lambda: _timer()).start()
-        return '{"status": "success"}'
+        return f"Timer Set for {args['seconds']} seconds."
 
     def get_funcs(self):
         """

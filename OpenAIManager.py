@@ -8,7 +8,7 @@ class OpenAIManager:
     Manages OpenAI API communications
     """
 
-    def __init__(self, settings, function_service=None):
+    def __init__(self, settings, service_provider):
         openai.organization = "org-mvUlF4kJZ6gVdyLaeZeNMDx7"
         openai.api_key = settings.OAI_API_KEY
 
@@ -16,7 +16,9 @@ class OpenAIManager:
         self._TEMPERATURE = settings.get('oai', default={}).get('temperature', default=1)
         self._TOP_P = settings.get('oai', default={}).get('top_p', default=1)
 
-        self._function_service = function_service
+        self._use_funcs = settings.get('use_funcs')
+
+        self._service_provider = service_provider
 
         print('OpenAI Ready...')
 
@@ -37,13 +39,13 @@ class OpenAIManager:
         chat_completion = self._make_completion(messages)
         message, function_call = _OutputParser().handle_completion(chat_completion, phrase_callback)
         function_output = ''
-        if function_call['name'] and self._function_service:
+        if function_call['name'] and self._use_funcs:
             function_output = self._make_function_call(function_call)
         return message, function_call['name'], function_output
 
     def _make_function_call(self, function_call):
         args = loads(function_call['arguments'])
-        function = self._function_service.get_functions()[function_call['name']]
+        function = self._service_provider.function_service().get_functions()[function_call['name']]
         return function(args)
 
     def _make_completion(self, messages):
@@ -55,8 +57,8 @@ class OpenAIManager:
             'messages': messages,
             'stream': True
         }
-        if self._function_service:
-            return openai.ChatCompletion.create(**kwargs, functions=self._function_service.get_function_descriptions())
+        if self._use_funcs:
+            return openai.ChatCompletion.create(**kwargs, functions=self._service_provider.function_service().get_function_descriptions())
         else:
             return openai.ChatCompletion.create(**kwargs)
 
