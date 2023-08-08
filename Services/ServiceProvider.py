@@ -1,11 +1,14 @@
 
-from ElevenLabsManager import ElevenLabsManager
-from OpenAIManager import OpenAIManager
-from RecordingManager import RecordingManager
-from oai_functions.FunctionProvider import FunctionProvider
+from Services.ElevenLabsManager import ElevenLabsManager
+from Services.OpenAIManager import OpenAIManager
+from Services.RecordingManager import RecordingManager
+from Services.FunctionProvider import FunctionProvider
 
 
 class ServiceProvider:
+    """
+    Provides services to apps and other services where necessary
+    """
     def __init__(self, settings):
         self._settings = settings
 
@@ -22,16 +25,36 @@ class ServiceProvider:
         self._oai_service = OpenAIManager(settings, self)
 
     def settings(self):
+        """
+        Gets the settings
+        @return: the settings
+        """
         return self._settings
 
     def oai_service(self):
+        """
+        Gets the OpenAI service
+        @return: the OpenAI service
+        """
         return self._oai_service
 
     def el_service(self):
+        """
+        Gets the ElevenLabs service
+        @return: the ElevenLabs service
+        """
         return self._el_service
 
     def recording_service(self):
+        """
+        Gets the Recording service
+        @return: the Recording service
+        """
         return self._recording_service
 
     def function_service(self):
+        """
+        Gets the Function service
+        @return: the Function service
+        """
         return self._function_service

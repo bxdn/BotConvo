@@ -23,11 +23,11 @@ class RecordingManager:
         recorder = PvRecorder(512)
         recorder.start()
         frames = []
-        print('Hold \'ctrl\' to speak a message.')
-        while not keyboard.is_pressed('ctrl'):
+        print('Hold \'shift\' to speak a message.')
+        while not keyboard.is_pressed('shift'):
             sleep(0.01)
         print('Recording...')
-        while keyboard.is_pressed('ctrl'):
+        while keyboard.is_pressed('shift'):
             frames.extend(recorder.read())
         recorder.delete()
         with wave.open('tmp.wav', 'w') as f:

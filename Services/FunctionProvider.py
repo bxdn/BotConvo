@@ -28,4 +28,3 @@ class FunctionProvider:
         for module in self._FUNCTION_MODULES:
             descriptions += module.get_function_descriptions()
         return descriptions
-

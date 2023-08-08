@@ -29,7 +29,6 @@ class ElevenLabsManager:
         """
         Using the predefined voice, will say the response into the user's speakers using ElevenLab's API
         Additionally, if MPV is installed, will stream to reduce latency, otherwise, will just play once it's done
-        :param batch_start: Whether this phrase starts the batch (If it does, and we can stream, we will stream instead of play
         :param voice_name: The Eleven labs voice name to speak the message
         :param response_to_speak: The string to speak
         """

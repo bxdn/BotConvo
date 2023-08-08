@@ -1,9 +1,9 @@
 
 from dynaconf import Dynaconf
 
-from BotBotApp import BotBotApp
-from ServiceProvider import ServiceProvider
-from UserBotApp import UserBotApp
+from Apps.BotBotApp import BotBotApp
+from Services.ServiceProvider import ServiceProvider
+from Apps.UserBotApp import UserBotApp
 
 
 def run():

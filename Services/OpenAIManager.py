@@ -1,3 +1,4 @@
+
 from json import loads
 
 import openai
@@ -58,7 +59,8 @@ class OpenAIManager:
             'stream': True
         }
         if self._use_funcs:
-            return openai.ChatCompletion.create(**kwargs, functions=self._service_provider.function_service().get_function_descriptions())
+            descs = self._service_provider.function_service().get_function_descriptions()
+            return openai.ChatCompletion.create(**kwargs, functions=descs)
         else:
             return openai.ChatCompletion.create(**kwargs)
 

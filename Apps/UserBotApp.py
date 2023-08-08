@@ -1,10 +1,7 @@
 
 import os
 
-from App import App
-from ElevenLabsManager import ElevenLabsManager
-from OpenAIManager import OpenAIManager
-from RecordingManager import RecordingManager
+from Apps.App import App
 
 
 class UserBotApp(App):
@@ -20,9 +17,6 @@ class UserBotApp(App):
     def run(self):
         """
         Starts chat mode with ChatGPT
-        :param voice: Name of Eleven Labs voice to use if
-        :param instruct_message: The message telling ChatGPT what it is, before the chat starts
-        :param mic: Whether to get user message from mic or keyboard
         """
         if self._read_history:
             self._init_history_file()

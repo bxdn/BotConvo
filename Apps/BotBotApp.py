@@ -1,7 +1,5 @@
 
-from App import App
-from ElevenLabsManager import ElevenLabsManager
-from OpenAIManager import OpenAIManager
+from Apps.App import App
 
 
 class BotBotApp(App):
@@ -21,8 +19,12 @@ class BotBotApp(App):
         voice = self._service_provider.settings().voice1
         print('App Running!')
         while True:
-            instruct_message = self._service_provider.settings().instruct1 if instruct_message == self._service_provider.settings().instruct2 else self._service_provider.settings().instruct2
-            voice = self._service_provider.settings().voice1 if voice == self._service_provider.settings().voice2 else self._service_provider.settings().voice2
+            instruct_message = self._service_provider.settings().instruct1 \
+                if instruct_message == self._service_provider.settings().instruct2 \
+                else self._service_provider.settings().instruct2
+            voice = self._service_provider.settings().voice1 \
+                if voice == self._service_provider.settings().voice2 \
+                else self._service_provider.settings().voice2
             self._transform_messages(instruct_message)
             self._get_next_bot_message(voice)
 
@@ -31,11 +33,16 @@ class BotBotApp(App):
         self._messages.append({'role': 'assistant', 'content': self._service_provider.settings().initial_message})
         print(self._service_provider.settings().initial_message)
         if self._service_provider.settings().voice1:
-            self._service_provider.el_service().say_response(self._service_provider.settings().initial_message, self._service_provider.settings().voice1)
+            self._service_provider.el_service().say_response(
+                self._service_provider.settings().initial_message, self._service_provider.settings().voice1
+            )
 
     def _get_next_bot_message(self, voice):
-        response = self._service_provider.oai_service().get_response(self._messages, self._get_send_and_receive_callback(voice))[0]
-        override = input('\n\nPress enter to continue.  If you would like to override the last message, Type it here.\n')
+        callback = self._get_send_and_receive_callback(voice)
+        response = self._service_provider.oai_service().get_response(self._messages, callback)[0]
+        override = input('''
+            \n\nPress enter to continue.  If you would like to override the last message, Type it here.\n
+        ''')
         if override:
             response = override
         self._messages.append({'role': 'assistant', 'content': response})
