@@ -1,6 +1,5 @@
 from threading import Thread
 from time import sleep
-from playsound import playsound
 
 from oai_functions.FunctionModule import FunctionModule
 

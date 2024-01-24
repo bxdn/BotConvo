@@ -51,7 +51,7 @@ class OpenAIManager:
 
     def _make_completion(self, messages):
         kwargs = {
-            'model': 'gpt-3.5-turbo',  # 'gpt-4'
+            'model': 'gpt-3.5-turbo',
             'max_tokens': self._MAX_TOKENS,
             'temperature': self._TEMPERATURE,
             'top_p': self._TOP_P,

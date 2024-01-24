@@ -4,6 +4,7 @@ from dynaconf import Dynaconf
 from Apps.BotBotApp import BotBotApp
 from Services.ServiceProvider import ServiceProvider
 from Apps.UserBotApp import UserBotApp
+from Apps.SimApp import SimApp
 
 
 def run():
@@ -17,7 +18,7 @@ def run():
     elif settings.mode == 'user_bot':
         app = UserBotApp(service_provider)
     else:
-        raise ValueError('Unknown run mode specified in settings file!')
+        app = SimApp(service_provider)
     app.run()
 
 
